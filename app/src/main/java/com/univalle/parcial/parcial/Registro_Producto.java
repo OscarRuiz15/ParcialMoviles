@@ -97,9 +97,22 @@ public class Registro_Producto extends Fragment {
             public void onClick(View v) {
                 String producto = txtProducto.getText().toString().trim();
                 String valor = txtPrecio.getText().toString().trim();
-
+                ValidarCampos val = new ValidarCampos();
                 if (producto.equals("") || valor.equals("")){
                     String message = "Hay campos vacios";
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setMessage(message);
+                    alertDialog.show();
+                }
+                else if(!(val.Texto(producto) || !(val.Numero(valor)))) {
+                    String mensa="";
+                    if (!(val.Texto(producto))) {
+                        mensa=" El producto es incorrecto";
+                    }
+                    if (!(val.Numero(valor))) {
+                        mensa=" El valor es incorrecto";
+                    }
+                    String message = mensa;
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage(message);
                     alertDialog.show();
