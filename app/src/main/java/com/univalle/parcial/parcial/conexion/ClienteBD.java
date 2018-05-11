@@ -18,7 +18,7 @@ public class ClienteBD extends ConexionBD {
         ContentValues registro = new ContentValues();
         registro.put("id",c.getId());
         registro.put("nombre", c.getNombre());
-        registro.put("tipo", c.getApellido());
+        registro.put("apellido", c.getApellido());
         registro.put("email", c.getEmail());
 
         db.insert("cliente", null, registro);
