@@ -41,73 +41,39 @@
         <TextView
             android:id="@+id/txtCampoNombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="__________________" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/txtCorreo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Correo" />
+            android:text="Correo:" />
 
         <TextView
             android:id="@+id/txtCampoCorreo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="_____________" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/txtTotalCompra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total Compra" />
+            android:text="Total Compra:" />
 
         <TextView
             android:id="@+id/txtCampoTotalCompra"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="_____________" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="/////////////////////////////"
-            android:textAlignment="center" />
+            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/txtFecha"
+        <ListView
+            android:id="@+id/producosVentas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fecha" />
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/txtCamoFecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="_____________" />
-
-        <TextView
-            android:id="@+id/txtProducto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Producto" />
-
-        <TextView
-            android:id="@+id/txtCampoProducto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="_____________" />
-
-        <TextView
-            android:id="@+id/txtValor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Valor" />
-
-        <TextView
-            android:id="@+id/txtCampoValor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="_____________" />
     </LinearLayout>
 </FrameLayout>

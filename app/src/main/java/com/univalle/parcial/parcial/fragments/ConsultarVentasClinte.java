@@ -1,14 +1,29 @@
 package com.univalle.parcial.parcial.fragments;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.univalle.parcial.parcial.R;
+import com.univalle.parcial.parcial.conexion.ClienteBD;
+import com.univalle.parcial.parcial.conexion.ConexionBD;
+import com.univalle.parcial.parcial.conexion.UsuarioBD;
+import com.univalle.parcial.parcial.conexion.VentaBD;
+import com.univalle.parcial.parcial.modelo.Cliente;
+import com.univalle.parcial.parcial.modelo.Venta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,6 +39,20 @@ public class ConsultarVentasClinte extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ConexionBD conexion;
+    private SQLiteDatabase db;
+
+    private TextView txtIdCliente;
+    private TextView txtNombre;
+    private TextView txtCorreo;
+    private TextView txtTotal;
+    private EditText listVenta;
+
+    private Button btnConsultar;
+
+    private ArrayAdapter<String> adaptador;
+    private ListView productosVentas;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -39,16 +68,14 @@ public class ConsultarVentasClinte extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment ConsultarVentasClinte.
      */
     // TODO: Rename and change types and number of parameters
-    public static ConsultarVentasClinte newInstance(String param1, String param2) {
+    public static ConsultarVentasClinte newInstance() {
         ConsultarVentasClinte fragment = new ConsultarVentasClinte();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        //args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,10 +90,28 @@ public class ConsultarVentasClinte extends Fragment {
     }
 
     @Override
+    //Modificar...
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_consultar_ventas_clinte, container, false);
+        View v= inflater.inflate(R.layout.fragment_consultar_ventas_clinte, container, false);
+
+        txtIdCliente=v.findViewById(R.id.tfIdentificacionCliente);
+        txtNombre=v.findViewById(R.id.txtCampoNombre);
+        txtCorreo=v.findViewById(R.id.txtCampoCorreo);
+        btnConsultar=v.findViewById(R.id.btnConsultar);
+        txtTotal=v.findViewById(R.id.txtCampoTotalCompra);
+        productosVentas=v.findViewById(R.id.producosVentas);
+        btnConsultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                consultarCliente();
+            }
+        });
+
+//
+
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +136,36 @@ public class ConsultarVentasClinte extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void consultarCliente(){
+        int identificacion= Integer.parseInt(txtIdCliente.getText().toString().trim());
+        int totalVentas=0;
+        ClienteBD cbd=new ClienteBD(getContext(),"Parcial", null, 1);
+        Cliente client=cbd.consultarId(identificacion);
+
+        List<Venta> venta;
+        VentaBD vent=new VentaBD(getContext(), "Parcial", null, 1);
+
+        venta= vent.consultarVentaPorCliente(client, getContext());
+
+        txtNombre.setText(venta.get(0).getCliente().getNombre()+" "+venta.get(0).getCliente().getApellido());
+        txtCorreo.setText(venta.get(0).getCliente().getEmail());
+
+        ArrayList<String>datosVenta=new ArrayList<String>();
+
+        for (int i = 0; i < venta.size(); i++) {
+            totalVentas+=venta.get(i).getTotal();
+            datosVenta.add("Fecha: "+venta.get(i).getFecha()+"\nProducto: "+venta.get(i).getProducto().getItem()+"\nValor Unitario: "+venta.get(i).getProducto().getPrecio()+"\nCantidad: "+venta.get(i).getCantidad()+"\nTotal: "+venta.get(i).getTotal());
+        }
+
+        txtTotal.setText(""+totalVentas);
+
+        adaptador=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,datosVenta);
+
+        productosVentas.setAdapter(adaptador);
+
+
     }
 
     /**
