@@ -52,7 +52,17 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     public void ingresarSistema(View view) {
-        String username = txtusername.getText().toString().trim();
+        Intent intent=new Intent(ActivityLogin.this,MainActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Bundle bundle=new Bundle();
+        bundle.putInt("id",1);
+
+        bundle.putString("nombre","Juan");
+        bundle.putString("email","Email@e-mail.com");
+        bundle.putInt("tipo",0);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        /*String username = txtusername.getText().toString().trim();
         String pass = txtpassword.getText().toString().trim();
 
 
@@ -65,15 +75,15 @@ public class ActivityLogin extends AppCompatActivity {
             UsuarioBD u = new UsuarioBD(this, "Parcial", null, 1);
             Usuario us = u.verificarID(username, pass);
             if (us != null) {
-                    /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    Bundle bundle = new Bundle();
+                    *//*Bundle bundle = new Bundle();
                     bundle.putInt("id", us.getId());
                     bundle.putString("nombre", us.getNombre());
                     bundle.putString("email", us.getEmail());
                     bundle.putInt("tipo", us.getTipo());
-                    intent.putExtras(bundle);
-                    startActivity(intent);*/
+                    intent.putExtras(bundle);*//*
+                    startActivity(intent);
                 Toast.makeText(getApplication(), "Se logea papu", Toast.LENGTH_LONG).show();
             } else {
                 String message = "Usuario erroneo";
@@ -84,5 +94,6 @@ public class ActivityLogin extends AppCompatActivity {
                 txtpassword.setText("");
             }
         }
+    }*/
     }
 }

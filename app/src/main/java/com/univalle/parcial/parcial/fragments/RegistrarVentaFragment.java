@@ -1,6 +1,5 @@
 package com.univalle.parcial.parcial.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,29 +10,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ClienteBD;
-import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
-import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Venta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Registro_Producto.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Registro_Producto#newInstance} factory method to
+ * Use the {@link RegistrarVentaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Registro_Producto extends Fragment {
+public class RegistrarVentaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,15 +38,15 @@ public class Registro_Producto extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private EditText txtProducto;
-    private EditText txtPrecio;
-    private String producto;
-    private String valor;
-    private Button btnlimpiar, btnregistrar;
+
+
+    private Button btncrear;
+    private AutoCompleteTextView txtid;
+    private static List<Venta> ventas = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
-    public Registro_Producto() {
+    public RegistrarVentaFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +56,11 @@ public class Registro_Producto extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Producto.
+     * @return A new instance of fragment RegistrarVentaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Registro_Producto newInstance(String param1, String param2) {
-        Registro_Producto fragment = new Registro_Producto();
+    public static RegistrarVentaFragment newInstance(String param1, String param2) {
+        RegistrarVentaFragment fragment = new RegistrarVentaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,74 +75,55 @@ public class Registro_Producto extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_registro__producto, container, false);
+        View v = inflater.inflate(R.layout.fragment_registrar_venta, container, false);
+        txtid = (AutoCompleteTextView) v.findViewById(R.id.txtconsulta);
+        ClienteBD cbd = new ClienteBD(getContext(), "parcial", null, 1);
+        List<Cliente> clientes = cbd.consultarClientes();
+        String autocompletar[] = new String[clientes.size()];
+        for (int i = 0; i < autocompletar.length; i++) {
+            autocompletar[i] = clientes.get(i).getNombre() + " " + clientes.get(i).getApellido();
+        }
+        ArrayAdapter adapter = new ArrayAdapter(v.getContext(), android.R.layout.simple_list_item_1, autocompletar);
+        txtid.setAdapter(adapter);
+        //Establecemos el layout main
 
-        txtProducto = v.findViewById(R.id.tfProducto);
-        txtPrecio = v.findViewById(R.id.tfValorProducto);
 
-        btnlimpiar = (Button) v.findViewById(R.id.btnLimpiar);
-        btnregistrar = (Button) v.findViewById(R.id.btnAgregar);
+        //Obtenemos el linear layout donde colocar los botones
+        ScrollView llBotonera = (ScrollView) v.findViewById(R.id.scrollventas);
 
-        btnlimpiar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                txtProducto.setText("");
-                txtPrecio.setText("");
+        //Creamos las propiedades de layout que tendrán los botones.
+        //Son LinearLayout.LayoutParams porque los botones van a estar en un LinearLayout.
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT );
 
+        //Creamos los botones en bucle
+        if (!ventas.isEmpty()) {
+
+            for (int i = 0; i < ventas.size(); i++) {
+                Button button = new Button(getContext());
+                //Asignamos propiedades de layout al boton
+                button.setLayoutParams(lp);
+                //Asignamos Texto al botón
+                button.setText(ventas.get(i).getProducto().getItem()+"\t" + ventas.get(i).getCantidad()+"\t" + "$"+ventas.get(i).getTotal());
+                //Añadimos el botón a la botonera
+                button.setOnClickListener(new ButtonsOnClickListener());
+                llBotonera.addView(button);
             }
-        });
-
-      /*  btnregistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String producto = txtProducto.getText().toString().trim();
-                String valor = txtPrecio.getText().toString().trim();
-                ValidarCampos val = new ValidarCampos();
-                if (producto.equals("") || valor.equals("")){
-                    String message = "Hay campos vacios";
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage(message);
-                    alertDialog.show();
-                }
-                else if(!(val.Texto(producto) || !(val.Numero(valor)))) {
-                    String mensa="";
-                    if (!(val.Texto(producto))) {
-                        mensa=" El producto es incorrecto";
-                    }
-                    if (!(val.Numero(valor))) {
-                        mensa=" El valor es incorrecto";
-                    }
-                    String message = mensa;
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage(message);
-                    alertDialog.show();
-                }
-                else{
-                    Producto p=new Producto(0,producto,Integer.parseInt(valor));
-
-                    ProductoBD pbd = new ProductoBD(getContext(), "Parcial",null,1);
-
-                    boolean query = pbd.insertarProducto(p);
-                    if (query) {
-                        String message = "Registro con exito";
-                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                        alertDialog.setMessage(message);
-                        alertDialog.show();
-                        txtProducto.setText("");
-                        txtPrecio.setText("");
-
-                    }
+            btncrear = (Button) v.findViewById(R.id.btncrearventa);
+            btncrear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                 }
-
-            }
-        });*/
+            });
+        }
 
         return v;
     }
@@ -190,4 +167,27 @@ public class Registro_Producto extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    public static RegistrarVentaFragment newInstance(Bundle arguments) {
+
+        RegistrarVentaFragment fragment = new RegistrarVentaFragment();
+        if (arguments!=null) {
+            Bundle args = new Bundle();
+
+            ventas = arguments.getParcelableArrayList("ventas");
+
+
+            fragment.setArguments(args);
+
+        }
+        return fragment;
+    }
+    class ButtonsOnClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v)
+        {
+
+        }
+
+    };
 }
