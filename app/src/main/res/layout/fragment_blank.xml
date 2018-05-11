@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlankFragment">
+    tools:context=".fragments.BlankFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -36,7 +36,7 @@
 
                 <fragment
                     android:id="@+id/fragment"
-                    android:name="com.univalle.parcial.parcial.Minutos"
+                    android:name="com.univalle.parcial.parcial.fragments.Minutos"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>

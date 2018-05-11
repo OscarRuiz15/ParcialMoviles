@@ -1,4 +1,4 @@
-package com.univalle.parcial.parcial;
+package com.univalle.parcial.parcial.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Producto;
 
