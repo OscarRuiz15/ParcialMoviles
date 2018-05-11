@@ -19,6 +19,7 @@ import com.univalle.parcial.parcial.conexion.ClienteBD;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Producto;
+import com.univalle.parcial.parcial.modelo.ValidarCampos;
 import com.univalle.parcial.parcial.modelo.Venta;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class Registro_Producto extends Fragment {
         btnregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String producto = txtProducto.getText().toString().trim();
+                String producto = txtProducto.getText().toString().trim();
                 String valor = txtPrecio.getText().toString().trim();
                 ValidarCampos val = new ValidarCampos();
                 if (producto.equals("") || valor.equals("")){
@@ -143,7 +144,7 @@ public class Registro_Producto extends Fragment {
 
                     }
 
-                }*/
+                }
 
             }
         });

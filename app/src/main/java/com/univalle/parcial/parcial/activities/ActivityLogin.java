@@ -54,8 +54,8 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
         ///Componentes interfaz
         txtusername = (EditText) findViewById(R.id.txtusername);
         txtpassword = (EditText) findViewById(R.id.txtpassword);
-        //txtlogin.setText("admin");
-        //txtpassword.setText("admin");
+        txtusername.setText("admin");
+        txtpassword.setText("admin");
 
         ///Conexion a BD para crearla o verificar que ya exista
         conexion = new ConexionBD(this, "Parcial", null, 1);

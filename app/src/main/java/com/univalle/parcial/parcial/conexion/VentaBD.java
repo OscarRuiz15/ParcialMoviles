@@ -10,8 +10,10 @@ import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Venta;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class VentaBD extends ConexionBD {
@@ -41,9 +43,47 @@ public class VentaBD extends ConexionBD {
     }
 
 
-    public List<Venta> consultarVentaPorCliente(Cliente c){
+    public List<Venta> consultarVentaPorCliente(Cliente c, Context context){
+        List<Venta> ventas = new ArrayList<>();
+        Venta vd = null;
+        String query = "select * from venta where idcliente='"+c.getId()+"'";
+        Cursor fila = db.rawQuery(query, null);
+        Cliente cliente;
+        if (fila.moveToFirst()) {
+            do {
+                int id = fila.getInt(0);
+                int idcliente = fila.getInt(1);
+                int idproducto = fila.getInt(2);
+                String fecha1 = fila.getString(3);
+                int cantidad=fila.getInt(4);
+                int total=fila.getInt(5);
 
-        return null;
+                SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+
+                Date fecha = null;
+                try {
+
+                    fecha = formatoDelTexto.parse(fecha1);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+
+                ClienteBD cbd=new ClienteBD(context, "Parcial", null, 1);
+                Cliente client=cbd.consultarId(idcliente);
+
+                ProductoBD pbd=new ProductoBD(context, "Parcial", null, 1);
+                Producto product=pbd.consultarId(idproducto);
+
+                vd = new Venta(id, client, product, fecha1, cantidad, total);
+                ventas.add(vd);
+            } while (fila.moveToNext());
+        }
+        fila.close();
+
+        return ventas;
     }
 
     public List<Venta> consultarVentas(VerVentasActivity verVentasActivity){
