@@ -1,5 +1,6 @@
 package com.univalle.parcial.parcial.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Producto;
+import com.univalle.parcial.parcial.modelo.Venta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,10 @@ public class CrearVentaActivity extends AppCompatActivity {
     
     private EditText txtentrega;
     private EditText txtcantidad;
+    private ArrayList<Integer>ids;
+    private ArrayList<String>nombres;
+    private ArrayList<Integer>cantidades;
+    private ArrayList<Integer>precio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,23 @@ public class CrearVentaActivity extends AppCompatActivity {
 
         });
     }
+
+    public void crearVenta(View v){
+        ProductoBD pbd=new ProductoBD(this,"Parcial",null,1);
+
+        int id=spinner.getSelectedItemPosition();
+        String nombre=(String)spinner.getSelectedItem();
+
+        Intent intent=new Intent(CrearVentaActivity.this,MainActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Bundle bundle=new Bundle();
+        bundle.putIntegerArrayList("ids",ids);
+        bundle.putIntegerArrayList("cantidades",cantidades);
+        bundle.putStringArrayList("nombres",nombres);
+        bundle.putIntegerArrayList("precio",precio);
+        startActivity(intent);
+    }
+
 
 
 }
