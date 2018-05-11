@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -47,23 +50,25 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ///Componentes interfaz
         txtusername = (EditText) findViewById(R.id.txtusername);
         txtpassword = (EditText) findViewById(R.id.txtpassword);
         //txtlogin.setText("admin");
         //txtpassword.setText("admin");
 
+        ///Conexion a BD para crearla o verificar que ya exista
         conexion = new ConexionBD(this, "Parcial", null, 1);
-
         String DB_PATH = "/data/data/com.univalle.parcial.parcial/databases/Parcial";
         try {
             db = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
             db.close();
-            Toast.makeText(getApplication(), "Ya existe la BD", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplication(), "Ya existe la BD", Toast.LENGTH_LONG).show();
         } catch (SQLiteException e) {
             //Si no existe la BD
             db = conexion.getWritableDatabase();
             if (conexion != null) {
-                Toast.makeText(getApplication(), "BD creada", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplication(), "BD creada", Toast.LENGTH_LONG).show();
                 String query;
                 UsuarioBD u = new UsuarioBD(this, "Parcial", null, 1);
                 String pass = u.md5("admin");
@@ -72,6 +77,7 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             }
         }
 
+        ///Para el login a traves del API de Google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
                 requestEmail()
                 .build();
@@ -81,12 +87,18 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
         manager = AccountManager.get(this);
 
         findViewById(R.id.sign_in).setOnClickListener(this);
+
+        ///Publicidad
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){});
 
     }
 
@@ -96,10 +108,26 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
 
 
         if (username.equals("") || pass.equals("")) {
-            String message = "Hay campos vacios";
+            /*String message = "Hay campos vacios";
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setMessage(message);
-            alertDialog.show();
+            alertDialog.show();*/
+            final AlertDialog dialogo = new AlertDialog.Builder(this).create();
+            dialogo.setTitle("Acceso no permitido");
+            dialogo.setMessage("Por favor registrese");
+            dialogo.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            dialogo.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogo.dismiss();
+                }
+            });
+            dialogo.show();
         } else {
             UsuarioBD u = new UsuarioBD(this, "Parcial", null, 1);
             Usuario us = u.verificarID(username, pass);
@@ -115,10 +143,15 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                     startActivity(intent);*/
                 Toast.makeText(getApplication(), "Se logea papu", Toast.LENGTH_LONG).show();
             } else {
-                String message = "Usuario erroneo";
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setMessage(message);
-                alertDialog.show();
+                final AlertDialog dialogo = new AlertDialog.Builder(this).create();
+                dialogo.setTitle("Usuario o contraseña incorrecto");
+                dialogo.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                dialogo.show();
                 txtusername.setText("");
                 txtpassword.setText("");
             }
@@ -170,7 +203,6 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(signIntent,RC_SIGN_IN);
             }
         }else{
-            Toast.makeText(this,"55",Toast.LENGTH_SHORT).show();
             android.support.v7.app.AlertDialog dialogo = new android.support.v7.app.AlertDialog.Builder(this).create();
             dialogo.setTitle("Sin conexion");
             dialogo.setMessage("No puede ingresar sin estar conectado");
