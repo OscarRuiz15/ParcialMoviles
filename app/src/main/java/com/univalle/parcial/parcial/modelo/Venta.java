@@ -6,9 +6,12 @@
 package com.univalle.parcial.parcial.modelo;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Venta {
+public class Venta implements Parcelable {
     private int id;
     private Cliente cliente;
     private Producto producto;
@@ -75,5 +78,15 @@ public class Venta {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
