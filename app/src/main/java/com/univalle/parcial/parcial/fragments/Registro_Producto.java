@@ -105,7 +105,7 @@ public class Registro_Producto extends Fragment {
         btnregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String producto = txtProducto.getText().toString().trim();
+                /*String producto = txtProducto.getText().toString().trim();
                 String valor = txtPrecio.getText().toString().trim();
                 ValidarCampos val = new ValidarCampos();
                 if (producto.equals("") || valor.equals("")){
@@ -143,7 +143,7 @@ public class Registro_Producto extends Fragment {
 
                     }
 
-                }
+                }*/
 
             }
         });
