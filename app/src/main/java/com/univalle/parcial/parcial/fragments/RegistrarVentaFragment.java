@@ -19,9 +19,11 @@ import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.activities.CrearVentaActivity;
 import com.univalle.parcial.parcial.conexion.ClienteBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
+import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Venta;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -108,7 +110,12 @@ public class RegistrarVentaFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT );
 
         //Creamos los botones en bucle
+        Venta venta=new Venta(1,new Cliente(1,"juan","perez","123"),new Producto(1,"Minutos",300),new Date(),5,1500);
+        ventas.add(venta);
+        venta=new Venta(1,new Cliente(1,"juan","perez","123"),new Producto(2,"Modem",1500),new Date(),4,7500);
+        ventas.add(venta);
         if (!ventas.isEmpty()) {
+
 
             for (int i = 0; i < ventas.size(); i++) {
                 Button button = new Button(getContext());
