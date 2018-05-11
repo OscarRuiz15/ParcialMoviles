@@ -42,6 +42,8 @@ public class UsuarioBD extends ConexionBD{
         return true;
     }
 
+
+
     public String md5 (String md5pass) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
