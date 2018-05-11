@@ -12,6 +12,10 @@ public class Cliente {
     private String apellido;
     private String email;
 
+    public Cliente(){
+
+    }
+
     public Cliente(int id, String nombre, String apellido, String email) {
         this.id = id;
         this.nombre = nombre;
