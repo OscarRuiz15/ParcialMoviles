@@ -15,11 +15,11 @@ public class Venta implements Parcelable {
     private int id;
     private Cliente cliente;
     private Producto producto;
-    private Date fecha;
+    private String fecha;
     private int cantidad;
     private int total;
 
-    public Venta(int id, Cliente cliente, Producto producto, Date fecha,int cantidad, int total ) {
+    public Venta(int id, Cliente cliente, Producto producto, String fecha,int cantidad, int total ) {
         this.id=id;
         this.cliente = cliente;
         this.setProducto(producto);
@@ -72,11 +72,11 @@ public class Venta implements Parcelable {
         return cantidad;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

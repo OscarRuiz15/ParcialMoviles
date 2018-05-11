@@ -132,16 +132,14 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             UsuarioBD u = new UsuarioBD(this, "Parcial", null, 1);
             Usuario us = u.verificarID(username, pass);
             if (us != null) {
-                    /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
                     Bundle bundle = new Bundle();
                     bundle.putInt("id", us.getId());
-                    bundle.putString("nombre", us.getNombre());
-                    bundle.putString("email", us.getEmail());
-                    bundle.putInt("tipo", us.getTipo());
+                    bundle.putString("username", us.getUsername());
                     intent.putExtras(bundle);
-                    startActivity(intent);*/
-                Toast.makeText(getApplication(), "Se logea papu", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                //Toast.makeText(getApplication(), "Se logea papu", Toast.LENGTH_LONG).show();
             } else {
                 final AlertDialog dialogo = new AlertDialog.Builder(this).create();
                 dialogo.setTitle("Usuario o contraseña incorrecto");
@@ -217,7 +215,9 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
     }
     private void handleSignInResult(GoogleSignInResult result ) {
         if(result.isSuccess()){
-            Toast.makeText(this,"Buena la rata, aca pasa al main activity",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
     }
     @Override

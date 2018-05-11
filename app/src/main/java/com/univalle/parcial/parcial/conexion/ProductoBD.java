@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Producto;
 
 import java.util.ArrayList;
@@ -62,5 +63,18 @@ public class ProductoBD extends ConexionBD {
         fila.close();
 
         return productos;
+    }
+
+    public Producto consultarId(int id) {
+        Producto p = null;
+        String query = "select * from producto where id=" + id;
+        Cursor fila = db.rawQuery(query, null);
+        if (fila.moveToFirst()) {
+            int idProducto = fila.getInt(0);
+            String item = fila.getString(1);
+            int precio = fila.getInt(2);
+            p = new Producto(idProducto, item, precio);
+        }
+        return p;
     }
 }

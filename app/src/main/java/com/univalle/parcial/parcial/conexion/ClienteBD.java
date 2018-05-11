@@ -62,7 +62,20 @@ public class ClienteBD extends ConexionBD {
         fila.close();
 
         return clientes;
+    }
 
+    public Cliente consultarId(int id) {
+        Cliente c = null;
+        String query = "select * from cliente where id=" + id;
+        Cursor fila = db.rawQuery(query, null);
+        if (fila.moveToFirst()) {
+            int idCliente = fila.getInt(0);
+            String nombre = fila.getString(1);
+            String apellido = fila.getString(2);
+            String email=fila.getString(3);
+            c = new Cliente(idCliente, nombre, apellido, email);
+        }
+        return c;
     }
 
 
