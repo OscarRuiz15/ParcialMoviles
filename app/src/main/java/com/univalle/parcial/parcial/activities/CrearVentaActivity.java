@@ -1,10 +1,11 @@
-package com.univalle.parcial.parcial;
+package com.univalle.parcial.parcial.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Producto;
 
