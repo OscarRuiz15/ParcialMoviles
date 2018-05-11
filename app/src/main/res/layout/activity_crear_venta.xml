@@ -16,13 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment
-            android:id="@+id/fragment"
-            android:name="com.univalle.parcial.parcial.Minutos"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/llh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

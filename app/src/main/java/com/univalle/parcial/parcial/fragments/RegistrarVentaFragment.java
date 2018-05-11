@@ -1,6 +1,7 @@
 package com.univalle.parcial.parcial.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.univalle.parcial.parcial.R;
+import com.univalle.parcial.parcial.activities.CrearVentaActivity;
 import com.univalle.parcial.parcial.conexion.ClienteBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Venta;
@@ -41,6 +44,7 @@ public class RegistrarVentaFragment extends Fragment {
 
 
     private Button btncrear;
+    private Button btnanadir;
     private AutoCompleteTextView txtid;
     private static List<Venta> ventas = new ArrayList<>();
 
@@ -96,7 +100,7 @@ public class RegistrarVentaFragment extends Fragment {
 
 
         //Obtenemos el linear layout donde colocar los botones
-        ScrollView llBotonera = (ScrollView) v.findViewById(R.id.scrollventas);
+        LinearLayout llBotonera = (LinearLayout) v.findViewById(R.id.llbotones);
 
         //Creamos las propiedades de layout que tendrán los botones.
         //Son LinearLayout.LayoutParams porque los botones van a estar en un LinearLayout.
@@ -116,16 +120,39 @@ public class RegistrarVentaFragment extends Fragment {
                 button.setOnClickListener(new ButtonsOnClickListener());
                 llBotonera.addView(button);
             }
-            btncrear = (Button) v.findViewById(R.id.btncrearventa);
-            btncrear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
+
         }
+        btncrear = (Button) v.findViewById(R.id.btnregistrarventa);
+        btncrear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+
+            }
+        });
+        btnanadir=(Button)v.findViewById(R.id.btnanadirventa);
+        btnanadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),CrearVentaActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+
+                getActivity().startActivity(intent);
+            }
+        });
+
 
         return v;
+    }
+
+    public void irCrearVenta(){
+        Intent intent=new Intent(getActivity(),CrearVentaActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+        System.out.println("algo");
+
+        getActivity().startActivity(intent);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

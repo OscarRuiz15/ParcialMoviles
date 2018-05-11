@@ -27,7 +27,7 @@ public class ProductoBD extends ConexionBD {
 
 
         db.insert("producto", null, registro);
-        db.close();
+        //db.close();
 
         return true;
 
@@ -47,13 +47,17 @@ public class ProductoBD extends ConexionBD {
     public List<Producto> consultarProductos(){
         List<Producto> productos = new ArrayList<>();
         Producto p = null;
+        System.out.println("??");
         String query = "select * from producto";
         Cursor fila = db.rawQuery(query, null);
         if (fila.moveToFirst()) {
+            System.out.println("encontre");
             do {
+
                 int id = fila.getInt(0);
                 String item = fila.getString(1);
                 int precio = fila.getInt(2);
+                System.out.println("hola");
 
                 p = new Producto(id,item,precio);
                 productos.add(p);

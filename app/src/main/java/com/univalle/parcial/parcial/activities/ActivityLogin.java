@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ConexionBD;
+import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.conexion.UsuarioBD;
+import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Usuario;
 
 public class ActivityLogin extends AppCompatActivity {
@@ -27,6 +29,7 @@ public class ActivityLogin extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         txtusername = (EditText) findViewById(R.id.txtusername);
         txtpassword = (EditText) findViewById(R.id.txtpassword);
+
         //txtlogin.setText("admin");
         //txtpassword.setText("admin");
 

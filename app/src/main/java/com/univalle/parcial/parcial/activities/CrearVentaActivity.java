@@ -9,6 +9,7 @@ import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Producto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrearVentaActivity extends AppCompatActivity {
@@ -17,15 +18,25 @@ public class CrearVentaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_crear_venta);
+
         spinner=(Spinner)findViewById(R.id.spinneropcion);
         ProductoBD pbd=new ProductoBD(this,"parcial",null,1);
-        List<Producto> productos=pbd.consultarProductos();
+        List<Producto> productos=new ArrayList<>();/*pbd.consultarProductos();*/
+        Producto p=new Producto(1,"Minutos",300);
+        productos.add(p);
+        p=new Producto(2,"modem",1500);
+        productos.add(p);
         String lista[]=new String[productos.size()];
+        System.out.println(lista.length);
         for (int i = 0; i <lista.length ; i++) {
             lista[i]=productos.get(i).getItem();
+
         }
-        ArrayAdapter adapter=new ArrayAdapter(this,R.layout.support_simple_spinner_dropdown_item,lista);
+        ArrayAdapter adapter=new ArrayAdapter(this,android.R.layout.simple_spinner_item,lista);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        setContentView(R.layout.activity_crear_venta);
+
+
     }
 }

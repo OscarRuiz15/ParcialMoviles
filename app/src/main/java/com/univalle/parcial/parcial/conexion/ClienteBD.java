@@ -15,12 +15,15 @@ public class ClienteBD extends ConexionBD {
 
     public ClienteBD(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+
         db=super.getWritableDatabase();
     }
 
     public boolean insertarCliente(Cliente c){
         ContentValues registro = new ContentValues();
         registro.put("id",c.getId());
+
+
         registro.put("nombre", c.getNombre());
         registro.put("apellido", c.getApellido());
         registro.put("email", c.getEmail());
