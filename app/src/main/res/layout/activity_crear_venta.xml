@@ -1,54 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Registro_Producto">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".activities.CrearVentaActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/tfProducto"
+        <Spinner
+            android:id="@+id/spinneropcion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Producto"
-            android:inputType="textPersonName" />
+            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/tfValorProducto"
+        <fragment
+            android:id="@+id/fragment"
+            android:name="com.univalle.parcial.parcial.Minutos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Valor Producto"
-            android:inputType="textPersonName" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnLimpiar"
+                android:id="@+id/btnlimpiarventa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Limpiar" />
 
             <Button
-                android:id="@+id/btnAgregar"
+                android:id="@+id/btncrearventa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Agregar Producto" />
+                android:text="Crear" />
         </LinearLayout>
-
-
     </LinearLayout>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

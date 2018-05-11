@@ -1,4 +1,4 @@
-package com.univalle.parcial.parcial;
+package com.univalle.parcial.parcial.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.univalle.parcial.parcial.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Modem.OnFragmentInteractionListener} interface
+ * {@link ConsultarVentasClinte.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Modem#newInstance} factory method to
+ * Use the {@link ConsultarVentasClinte#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Modem extends Fragment {
+public class ConsultarVentasClinte extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class Modem extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Modem() {
+    public ConsultarVentasClinte() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class Modem extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Modem.
+     * @return A new instance of fragment ConsultarVentasClinte.
      */
     // TODO: Rename and change types and number of parameters
-    public static Modem newInstance(String param1, String param2) {
-        Modem fragment = new Modem();
+    public static ConsultarVentasClinte newInstance(String param1, String param2) {
+        ConsultarVentasClinte fragment = new ConsultarVentasClinte();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +66,7 @@ public class Modem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_modem, container, false);
+        return inflater.inflate(R.layout.fragment_consultar_ventas_clinte, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
