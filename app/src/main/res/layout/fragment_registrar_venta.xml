@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Registro_Producto$RegistrarVentaFragment">
+    tools:context=".fragments.RegistrarVentaFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -19,13 +19,13 @@
             android:hint="@string/hint_autocompletar" />
 
         <ScrollView
-            android:id="@+id/scrollventas"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/llbotones"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical" />
         </ScrollView>
 
@@ -33,6 +33,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnanadirventa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Añadir Venta" />
 
             <Button
                 android:id="@+id/btnregistrarventa"
