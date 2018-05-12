@@ -79,10 +79,18 @@ public class CrearVentaActivity extends AppCompatActivity {
     }
 
     public void crearVenta(View v){
-        ProductoBD pbd=new ProductoBD(this,"Parcial",null,1);
-
         int id=spinner.getSelectedItemPosition();
-        String nombre=(String)spinner.getSelectedItem();
+        ProductoBD pbd=new ProductoBD(this,"Parcial",null,1);
+        Producto producto=pbd.consultarId(id);
+
+
+        String nombre=producto.getItem();
+        int cantidad=Integer.parseInt(txtcantidad.getText().toString().trim());
+        int preciop=cantidad*producto.getPrecio();
+        ids.add(id);
+        nombres.add(nombre);
+        cantidades.add(cantidad);
+        precio.add(preciop);
 
         Intent intent=new Intent(CrearVentaActivity.this,MainActivity.class);
         intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);

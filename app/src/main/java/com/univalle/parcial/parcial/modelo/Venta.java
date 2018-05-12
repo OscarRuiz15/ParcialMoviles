@@ -11,7 +11,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
-public class Venta implements Parcelable {
+public class Venta  {
     private int id;
     private Cliente cliente;
     private Producto producto;
@@ -80,13 +80,5 @@ public class Venta implements Parcelable {
         this.fecha = fecha;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 }
