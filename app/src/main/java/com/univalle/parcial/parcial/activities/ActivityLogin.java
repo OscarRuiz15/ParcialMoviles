@@ -74,6 +74,15 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
                 String pass = u.md5("admin");
                 query = "insert into usuario (id , username, password) values (0,'admin','" + pass + "');";
                 db.execSQL(query);
+                db.execSQL("insert into cliente (id,nombre,apellido,email) values (1115087378,'Oscar','Ruiz','oarp1996@hotmail.com');");
+                db.execSQL("insert into producto (id,item,precio) values (1,'Minutos',100);");
+                db.execSQL("insert into producto (id,item,precio) values (2,'Modem',4000);");
+                db.execSQL("insert into producto (id,item,precio) values (3,'Arroz',1500);");
+                db.execSQL("insert into producto (id,item,precio) values (4,'Papa',600);");
+                db.execSQL("insert into producto (id,item,precio) values (5,'Cerveza',2200);");
+                db.execSQL("insert into venta (id,idcliente,idproducto,fecha,cantidad,total) values (1,1,1,'11052018',2,200);");
+                db.execSQL("insert into venta (id,idcliente,idproducto,fecha,cantidad,total) values (2,1,2,'11052018',3,12000);");
+                db.execSQL("insert into venta (id,idcliente,idproducto,fecha,cantidad,total) values (3,1,3,'11052018',1,1500);");
             }
         }
 
