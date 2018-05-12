@@ -35,7 +35,7 @@ public class RegistrarCliente extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private EditText txtnombre, txtemail, txtapellido;
+    private EditText txtnombre, txtemail, txtapellido, txtCedula;
     private Button btnlimpiar, btnregistrar;
     private Spinner spinner;
     private static Cliente usuario;
@@ -52,8 +52,6 @@ public class RegistrarCliente extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment {@link RegistrarCliente}.
      */
     // TODO: Rename and change types and number of parameters
@@ -73,12 +71,12 @@ public class RegistrarCliente extends Fragment {
         View v = inflater.inflate(R.layout.fragment_registrar_cliente, container, false);
 
         txtnombre = (EditText) v.findViewById(R.id.tfNombre);
-        txtnombre.setText(usuario.getNombre());
         txtapellido = (EditText) v.findViewById(R.id.tfApellido);
         txtemail = (EditText) v.findViewById(R.id.tfEmail);
         /*spinner = (Spinner) v.findViewById(R.id.spinner); */
         btnlimpiar = (Button) v.findViewById(R.id.btnlimpiar);
         btnregistrar = (Button) v.findViewById(R.id.btnregistrar);
+        txtCedula=(EditText)v.findViewById(R.id.tfCedula);
 
         // Inflate the layout for this fragment
         btnlimpiar.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +85,7 @@ public class RegistrarCliente extends Fragment {
                 txtnombre.setText("");
                 txtapellido.setText("");
                 txtemail.setText("");
+                txtCedula.setText("");
             }
         });
 
@@ -96,15 +95,15 @@ public class RegistrarCliente extends Fragment {
                 String nombre = txtnombre.getText().toString().trim();
                 String apellido = txtapellido.getText().toString().trim();
                 String email = txtemail.getText().toString().trim();
+                String cedula=txtCedula.getText().toString().trim();
 
-
-                if (nombre.equals("") || email.equals("") || apellido.equals("")) {
+                if (nombre.equals("") || email.equals("") || apellido.equals("") || cedula.equals("")) {
                     String message = "Hay campos vacios";
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage(message);
                     alertDialog.show();
                 } else {
-                    Cliente u = new Cliente(0, nombre, apellido, email);
+                    Cliente u = new Cliente(Integer.parseInt(cedula), nombre, apellido, email);
                     ClienteBD cbd = new ClienteBD(v.getContext(), "Parcial", null, 1);
                     boolean query = cbd.insertarCliente(u);
                     if (query) {
@@ -115,6 +114,7 @@ public class RegistrarCliente extends Fragment {
                         txtnombre.setText("");
                         txtapellido.setText("");
                         txtemail.setText("");
+                        txtCedula.setText("");
                     }
                 }
 
@@ -129,22 +129,6 @@ public class RegistrarCliente extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-    public static RegistrarCliente newInstance(Bundle arguments) {
-
-        Bundle args = new Bundle();
-
-        int id=arguments.getInt("id");
-        String nombre=arguments.getString("nombre");
-        String apellido=arguments.getString("apellido");
-        String email=arguments.getString("email");
-        usuario=new Cliente(id,nombre,apellido,email);
-
-        RegistrarCliente fragment = new RegistrarCliente();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -160,6 +144,11 @@ public class RegistrarCliente extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public static RegistrarCliente newInstance(String s, String s1) {
+        RegistrarCliente fragment = new RegistrarCliente();
+        return fragment;
     }
 
     /**

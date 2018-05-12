@@ -44,42 +44,49 @@ public class VentaBD extends ConexionBD {
     public List<Venta> consultarVentaPorCliente(Cliente c, Context context){
         List<Venta> ventas = new ArrayList<>();
         Venta vd = null;
-        String query = "select * from venta where idcliente='"+c.getId()+"'";
-        Cursor fila = db.rawQuery(query, null);
-        Cliente cliente;
-        if (fila.moveToFirst()) {
-            do {
-                int id = fila.getInt(0);
-                int idcliente = fila.getInt(1);
-                int idproducto = fila.getInt(2);
-                String fecha1 = fila.getString(3);
-                int cantidad=fila.getInt(4);
-                int total=fila.getInt(5);
+        try{
+            String query = "select * from venta where idcliente='"+c.getId()+"'";
+            Cursor fila = db.rawQuery(query, null);
+            Cliente cliente;
+            if (fila.moveToFirst()) {
+                do {
+                    int id = fila.getInt(0);
+                    int idcliente = fila.getInt(1);
+                    int idproducto = fila.getInt(2);
+                    String fecha1 = fila.getString(3);
+                    int cantidad=fila.getInt(4);
+                    int total=fila.getInt(5);
 
-                SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+                    SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 
-                Date fecha = null;
-                try {
+                    Date fecha = null;
+                    try {
 
-                    fecha = formatoDelTexto.parse(fecha1);
+                        fecha = formatoDelTexto.parse(fecha1);
 
-                } catch (ParseException ex) {
+                    } catch (ParseException ex) {
 
-                    ex.printStackTrace();
+                        ex.printStackTrace();
 
-                }
+                    }
 
-                ClienteBD cbd=new ClienteBD(context, "Parcial", null, 1);
-                Cliente client=cbd.consultarId(idcliente);
+                    ClienteBD cbd=new ClienteBD(context, "Parcial", null, 1);
+                    Cliente client=cbd.consultarId(idcliente);
 
-                ProductoBD pbd=new ProductoBD(context, "Parcial", null, 1);
-                Producto product=pbd.consultarId(idproducto);
+                    ProductoBD pbd=new ProductoBD(context, "Parcial", null, 1);
+                    Producto product=pbd.consultarId(idproducto);
 
-                vd = new Venta(id, client, product, fecha1, cantidad, total);
-                ventas.add(vd);
-            } while (fila.moveToNext());
+                    vd = new Venta(id, client, product, fecha1, cantidad, total);
+                    ventas.add(vd);
+                } while (fila.moveToNext());
+            }
+            fila.close();
         }
-        fila.close();
+        catch(Exception e){
+            ventas=null;
+        }
+
+
 
         return ventas;
     }
