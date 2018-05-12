@@ -105,7 +105,7 @@ public class RegistrarCliente extends Fragment {
                     alertDialog.show();
                 } else {
                     Cliente u = new Cliente(0, nombre, apellido, email);
-                    ClienteBD cbd = new ClienteBD(v.getContext(), "Cuentas", null, 1);
+                    ClienteBD cbd = new ClienteBD(v.getContext(), "Parcial", null, 1);
                     boolean query = cbd.insertarCliente(u);
                     if (query) {
                         String message = "Registro con exito";
