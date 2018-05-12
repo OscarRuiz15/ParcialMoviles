@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.univalle.parcial.parcial.activities.VerVentasActivity;
 import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Venta;
@@ -41,7 +40,6 @@ public class VentaBD extends ConexionBD {
         db.close();
         return true;
     }
-
 
     public List<Venta> consultarVentaPorCliente(Cliente c, Context context){
         List<Venta> ventas = new ArrayList<>();
@@ -86,7 +84,7 @@ public class VentaBD extends ConexionBD {
         return ventas;
     }
 
-    public List<Venta> consultarVentas(VerVentasActivity verVentasActivity){
+    public List<Venta> consultarVentas(Context verVentasActivity){
         List<Venta> ventas = new ArrayList<>();
         Venta vd = null;
         String query = "select * from venta";

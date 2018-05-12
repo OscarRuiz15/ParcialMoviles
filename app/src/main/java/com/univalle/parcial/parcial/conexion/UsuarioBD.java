@@ -24,7 +24,7 @@ public class UsuarioBD extends ConexionBD{
         if (fila.moveToFirst()) {
             int id = fila.getInt(0);
             String nombre = fila.getString(1);
-            String contrasena = fila.getString(1);
+            String contrasena = fila.getString(2);
             u = new Usuario(id, nombre, contrasena);
         }
         return u;

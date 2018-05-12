@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ClienteBD;
 import com.univalle.parcial.parcial.conexion.ConexionBD;
-import com.univalle.parcial.parcial.conexion.UsuarioBD;
 import com.univalle.parcial.parcial.conexion.VentaBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Venta;
@@ -29,12 +28,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ConsultarVentasClinte.OnFragmentInteractionListener} interface
+ * {@link ConsultarVentasCliente.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ConsultarVentasClinte#newInstance} factory method to
+ * Use the {@link ConsultarVentasCliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConsultarVentasClinte extends Fragment {
+public class ConsultarVentasCliente extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -49,6 +48,7 @@ public class ConsultarVentasClinte extends Fragment {
     private EditText listVenta;
 
     private Button btnConsultar;
+    private Button btnLimpiar;
 
     private ArrayAdapter<String> adaptador;
     private ListView productosVentas;
@@ -60,7 +60,7 @@ public class ConsultarVentasClinte extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ConsultarVentasClinte() {
+    public ConsultarVentasCliente() {
         // Required empty public constructor
     }
 
@@ -69,11 +69,11 @@ public class ConsultarVentasClinte extends Fragment {
      * this fragment using the provided parameters.
      *
 
-     * @return A new instance of fragment ConsultarVentasClinte.
+     * @return A new instance of fragment ConsultarVentasCliente.
      */
     // TODO: Rename and change types and number of parameters
-    public static ConsultarVentasClinte newInstance() {
-        ConsultarVentasClinte fragment = new ConsultarVentasClinte();
+    public static ConsultarVentasCliente newInstance() {
+        ConsultarVentasCliente fragment = new ConsultarVentasCliente();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -93,7 +93,7 @@ public class ConsultarVentasClinte extends Fragment {
     //Modificar...
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.fragment_consultar_ventas_clinte, container, false);
+        View v= inflater.inflate(R.layout.fragment_consultar_ventas_cliente, container, false);
 
         txtIdCliente=v.findViewById(R.id.tfIdentificacionCliente);
         txtNombre=v.findViewById(R.id.txtCampoNombre);
@@ -101,10 +101,22 @@ public class ConsultarVentasClinte extends Fragment {
         btnConsultar=v.findViewById(R.id.btnConsultar);
         txtTotal=v.findViewById(R.id.txtCampoTotalCompra);
         productosVentas=v.findViewById(R.id.producosVentas);
+        btnLimpiar=v.findViewById(R.id.btnLimpiar);
+
         btnConsultar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 consultarCliente();
+            }
+        });
+
+        btnLimpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtNombre.setText("");
+                txtCorreo.setText("");
+                txtTotal.setText("");
+                txtIdCliente.setText("");
             }
         });
 
