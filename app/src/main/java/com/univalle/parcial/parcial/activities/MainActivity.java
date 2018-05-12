@@ -12,13 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.fragments.ConsultarVentasCliente;
+import com.univalle.parcial.parcial.fragments.RegistrarCliente;
 import com.univalle.parcial.parcial.fragments.Registro_Producto;
 import com.univalle.parcial.parcial.fragments.VerVentas;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultarVentasCliente.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener, Registro_Producto.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultarVentasCliente.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener, Registro_Producto.OnFragmentInteractionListener, RegistrarCliente.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ///Publicidad
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){});
     }
 
     @Override
@@ -83,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             crearFragmentVentasTotales();
         }
         else if (id == R.id.navigation_registrarCliente) {
-            //Registrarcliente
+            crearFragmentRegistrarCliente();
         }
         else if (id == R.id.navigation_registrarProducto) {
             crearFragmentRegistrarProducto();
@@ -114,6 +125,14 @@ public class MainActivity extends AppCompatActivity
 
     public void crearFragmentRegistrarProducto(){
         Registro_Producto fragment = Registro_Producto.newInstance("","");
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment,fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void crearFragmentRegistrarCliente(){
+        RegistrarCliente fragment = RegistrarCliente.newInstance("","");
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment,fragment);
         ft.addToBackStack(null);

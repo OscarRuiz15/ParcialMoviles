@@ -1,5 +1,6 @@
 package com.univalle.parcial.parcial.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -161,21 +162,38 @@ public class ConsultarVentasCliente extends Fragment {
 
         venta= vent.consultarVentaPorCliente(client, getContext());
 
-        txtNombre.setText(venta.get(0).getCliente().getNombre()+" "+venta.get(0).getCliente().getApellido());
-        txtCorreo.setText(venta.get(0).getCliente().getEmail());
+        try{
+            if(venta.size()>1){
+                txtNombre.setText(venta.get(0).getCliente().getNombre()+" "+venta.get(0).getCliente().getApellido());
+                txtCorreo.setText(venta.get(0).getCliente().getEmail());
 
-        ArrayList<String>datosVenta=new ArrayList<String>();
+                ArrayList<String>datosVenta=new ArrayList<String>();
 
-        for (int i = 0; i < venta.size(); i++) {
-            totalVentas+=venta.get(i).getTotal();
-            datosVenta.add("Fecha: "+venta.get(i).getFecha()+"\nProducto: "+venta.get(i).getProducto().getItem()+"\nValor Unitario: "+venta.get(i).getProducto().getPrecio()+"\nCantidad: "+venta.get(i).getCantidad()+"\nTotal: "+venta.get(i).getTotal());
+                for (int i = 0; i < venta.size(); i++) {
+                    totalVentas+=venta.get(i).getTotal();
+                    datosVenta.add("Fecha: "+venta.get(i).getFecha()+"\nProducto: "+venta.get(i).getProducto().getItem()+"\nValor Unitario: "+venta.get(i).getProducto().getPrecio()+"\nCantidad: "+venta.get(i).getCantidad()+"\nTotal: "+venta.get(i).getTotal());
+                }
+
+                txtTotal.setText(""+totalVentas);
+
+                adaptador=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,datosVenta);
+
+                productosVentas.setAdapter(adaptador);
+            }else{
+                String message = "El cliente con cedula "+identificacion+" no ha registrado compras";
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setMessage(message);
+                alertDialog.show();
+            }
+        }
+        catch(Exception e){
+            String message = "El cliente con cedula "+identificacion+" no se encuentra registrado";
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setMessage(message);
+            alertDialog.show();
         }
 
-        txtTotal.setText(""+totalVentas);
 
-        adaptador=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,datosVenta);
-
-        productosVentas.setAdapter(adaptador);
 
 
     }
