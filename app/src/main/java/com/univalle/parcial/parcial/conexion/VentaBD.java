@@ -24,8 +24,7 @@ public class VentaBD extends ConexionBD {
 
     public boolean insertarVenta(Venta v){
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-        String fecha=sdf.format(v.getFecha());
+        String fecha=v.getFecha();
 
         ContentValues registro = new ContentValues();
 
@@ -33,10 +32,10 @@ public class VentaBD extends ConexionBD {
         registro.put("idproducto", v.getProducto().getId());
         registro.put("fecha", fecha);
         registro.put("cantidad", v.getCantidad());
-        registro.put("preciounitario", v.getProducto().getPrecio());
+
         registro.put("total", v.getTotal());
 
-        db.insert("cliente", null, registro);
+        db.insert("venta", null, registro);
         db.close();
         return true;
     }

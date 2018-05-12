@@ -18,11 +18,12 @@ import com.google.android.gms.ads.AdView;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.fragments.ConsultarVentasCliente;
 import com.univalle.parcial.parcial.fragments.RegistrarCliente;
+import com.univalle.parcial.parcial.fragments.RegistrarVentaFragment;
 import com.univalle.parcial.parcial.fragments.Registro_Producto;
 import com.univalle.parcial.parcial.fragments.VerVentas;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ConsultarVentasCliente.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener, Registro_Producto.OnFragmentInteractionListener, RegistrarCliente.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ConsultarVentasCliente.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener, Registro_Producto.OnFragmentInteractionListener, RegistrarCliente.OnFragmentInteractionListener,RegistrarVentaFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         mAdView.loadAd(adRequest);
 
         mAdView.setAdListener(new AdListener(){});
+        crearFragmentRegistrarVenta();
     }
 
     @Override
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity
             crearFragmentRegistrarProducto();
         }
         else if (id == R.id.navigation_registrarVenta) {
-            //RegistrarVenta
+            crearFragmentRegistrarVenta();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -117,6 +119,23 @@ public class MainActivity extends AppCompatActivity
 
     public void crearFragmentVentasTotales(){
         VerVentas fragment = VerVentas.newInstance();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment,fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+    public void crearFragmentRegistrarVenta() {
+
+        Bundle bundle=new Bundle();
+        bundle.putIntegerArrayList("ids",getIntent().getIntegerArrayListExtra("ids"));
+        if (getIntent().getIntegerArrayListExtra("ids")!=null)
+            System.out.println(getIntent().getExtras().getIntegerArrayList("ids").get(0));
+        bundle.putIntegerArrayList("cantidades",getIntent().getIntegerArrayListExtra("cantidades"));
+        bundle.putStringArrayList("nombres",getIntent().getStringArrayListExtra("nombres"));
+        if (getIntent().getIntegerArrayListExtra("nombres")!=null)
+            System.out.println(getIntent().getExtras().getIntegerArrayList("nombres").get(0));
+        bundle.putIntegerArrayList("precio",getIntent().getIntegerArrayListExtra("precio"));
+        RegistrarVentaFragment fragment = RegistrarVentaFragment.newInstance(bundle);
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment,fragment);
         ft.addToBackStack(null);
