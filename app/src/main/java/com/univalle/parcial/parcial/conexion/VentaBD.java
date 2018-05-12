@@ -94,6 +94,7 @@ public class VentaBD extends ConexionBD {
         Cliente cliente;
         if (fila.moveToFirst()) {
             do {
+                //
                 int id = fila.getInt(0);
                 int idcliente = fila.getInt(1);
                 int idproducto = fila.getInt(2);

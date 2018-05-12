@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.activities.CrearVentaActivity;
 import com.univalle.parcial.parcial.conexion.ClienteBD;
+import com.univalle.parcial.parcial.conexion.ProductoBD;
+import com.univalle.parcial.parcial.conexion.VentaBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
 import com.univalle.parcial.parcial.modelo.Producto;
 import com.univalle.parcial.parcial.modelo.Venta;
@@ -47,6 +49,11 @@ public class RegistrarVentaFragment extends Fragment {
 
     private Button btncrear;
     private Button btnanadir;
+    private Button botones[]=new Button[30];
+    private ArrayList<Integer>ids;
+    private ArrayList<String>nombres;
+    private ArrayList<Integer>cantidades;
+    private ArrayList<Integer>precio;
     private AutoCompleteTextView txtid;
     private static List<Venta> ventas = new ArrayList<>();
 
@@ -110,21 +117,20 @@ public class RegistrarVentaFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT );
 
         //Creamos los botones en bucle
-        Venta venta=new Venta(1,new Cliente(1,"juan","perez","123"),new Producto(1,"Minutos",300),new Date(),5,1500);
-        ventas.add(venta);
-        venta=new Venta(1,new Cliente(1,"juan","perez","123"),new Producto(2,"Modem",1500),new Date(),4,7500);
-        ventas.add(venta);
-        if (!ventas.isEmpty()) {
+
+        if (!ids.isEmpty()) {
 
 
-            for (int i = 0; i < ventas.size(); i++) {
+            for (int i = 0; i < ids.size(); i++) {
                 Button button = new Button(getContext());
                 //Asignamos propiedades de layout al boton
                 button.setLayoutParams(lp);
                 //Asignamos Texto al botón
-                button.setText(ventas.get(i).getProducto().getItem()+"\t" + ventas.get(i).getCantidad()+"\t" + "$"+ventas.get(i).getTotal());
+                button.setText(ids.get(i)+"\t"+nombres.get(i)+"\t" + cantidades.get(i)+"\t" + "$"+precio.get(i));
+                button.setTag(i+"");
                 //Añadimos el botón a la botonera
                 button.setOnClickListener(new ButtonsOnClickListener());
+                botones[i]=button;
                 llBotonera.addView(button);
             }
 
@@ -134,6 +140,19 @@ public class RegistrarVentaFragment extends Fragment {
         btncrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vi) {
+                ClienteBD cbd=new ClienteBD(getContext(),"Parcial",null,1);
+
+
+                Cliente cliente=cbd.consultarId(Integer.parseInt(txtid.getText().toString().trim()));
+                for (int i = 0; i < ids.size(); i++) {
+                    ProductoBD productoBD=new ProductoBD(getContext(),"Parcial",null,1);
+                    VentaBD vbd=new VentaBD(getContext(),"Parcial",null,1);
+                    String campos[]=botones[i].getText().toString().trim().split("\t");
+                    Producto p=productoBD.consultarId(Integer.parseInt(campos[0]));
+                    Venta v=new Venta(0,cliente,p,new Date().toString(),Integer.parseInt(campos[2]),Integer.parseInt(campos[3]));
+                    vbd.insertarVenta(v);
+
+                }
 
             }
         });
@@ -201,15 +220,16 @@ public class RegistrarVentaFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public static RegistrarVentaFragment newInstance(Bundle arguments) {
+    public RegistrarVentaFragment newInstance(Bundle arguments) {
 
         RegistrarVentaFragment fragment = new RegistrarVentaFragment();
         if (arguments!=null) {
             Bundle args = new Bundle();
 
-            ventas = arguments.getParcelableArrayList("ventas");
-
-
+            ids = arguments.getIntegerArrayList("ids");
+            nombres=arguments.getStringArrayList("nombres");
+            cantidades=arguments.getIntegerArrayList("cantidades");
+            precio=arguments.getIntegerArrayList("precio");
             fragment.setArguments(args);
 
         }
