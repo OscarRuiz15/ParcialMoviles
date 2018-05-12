@@ -132,13 +132,13 @@ public class ActivityLogin extends AppCompatActivity implements View.OnClickList
             UsuarioBD u = new UsuarioBD(this, "Parcial", null, 1);
             Usuario us = u.verificarID(username, pass);
             if (us != null) {
-                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", us.getId());
-                    bundle.putString("username", us.getUsername());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", us.getId());
+                bundle.putString("username", us.getUsername());
+                intent.putExtras(bundle);
+                startActivity(intent);
                 //Toast.makeText(getApplication(), "Se logea papu", Toast.LENGTH_LONG).show();
             } else {
                 final AlertDialog dialogo = new AlertDialog.Builder(this).create();

@@ -75,18 +75,14 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
 
     /* public void crearFragmentRegistrar() {
          Toast.makeText(getApplication(), "Registrar", Toast.LENGTH_LONG).show();
-
          Bundle bundle = new Bundle();
          bundle.putInt("id", cliente.getId());
          bundle.putString("nombre", cliente.getNombre());
          bundle.putString("apellido", cliente.getApellido()));
          bundle.putString("email", cliente.getEmail());
-
          FragmentRegistrar fragment = FragmentRegistrar.newInstance(bundle);
          android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
          ft.add(R.id.fragment, fragment);
-
-
          ft.commit();
      }
  */
