@@ -27,7 +27,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".activities.VerVentasActivity"></activity>
     </application>
 
 </manifest>

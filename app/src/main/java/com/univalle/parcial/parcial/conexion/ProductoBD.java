@@ -22,7 +22,7 @@ public class ProductoBD extends ConexionBD {
     public boolean insertarProducto(Producto p){
 
         ContentValues registro = new ContentValues();
-        registro.put("id",p.getId());
+        //registro.put("id",p.getId());
         registro.put("item", p.getItem());
         registro.put("precio", p.getPrecio());
 

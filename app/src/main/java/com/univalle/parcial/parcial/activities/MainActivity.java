@@ -1,32 +1,30 @@
 package com.univalle.parcial.parcial.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ConexionBD;
-import com.univalle.parcial.parcial.fragments.ConsultarVentasClinte;
+import com.univalle.parcial.parcial.fragments.ConsultarVentasCliente;
 import com.univalle.parcial.parcial.fragments.Registro_Producto;
+import com.univalle.parcial.parcial.fragments.VerVentas;
 import com.univalle.parcial.parcial.modelo.Cliente;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements ConsultarVentasClinte.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ConsultarVentasCliente.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
     Cliente cliente;
     ConexionBD conexion;
     SQLiteDatabase db;
-    ConsultarVentasClinte consultventcliente;
+    ConsultarVentasCliente consultventcliente;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -36,12 +34,10 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_consultar_venta_cliente:
-                    Toast.makeText(getApplication(), "Felipe", Toast.LENGTH_LONG).show();
                     crearFragmentConsultarCliente();
                     return true;
                 case R.id.navigation_consultar_ventas:
-                    Toast.makeText(getApplication(), "clic consultar", Toast.LENGTH_LONG).show();
-                    consultarVentas();
+                    crearFragmentVentasTotales();
                     return true;
                 case R.id.navigation_registrar_producto:
                     registrarProducto();
@@ -95,24 +91,21 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
      }
  */
     public void crearFragmentConsultarCliente() {
-        /*List<Cliente> clientes;
-        ClienteBD cbd=new ClienteBD(this, "Parcial", null, 1);
-        clientes=cbd.consultarClientes();*/
-
-        ConsultarVentasClinte fragment = ConsultarVentasClinte.newInstance();
-
+        ConsultarVentasCliente fragment = ConsultarVentasCliente.newInstance();
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment,fragment);
         ft.addToBackStack(null);
         ft.commit();
     }
 
-    public void consultarVentas(){
-        Toast.makeText(getApplication(), "Vamos", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(MainActivity.this, VerVentasActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    public void crearFragmentVentasTotales(){
+        VerVentas fragment = VerVentas.newInstance();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment,fragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
+
 
     public void registrarProducto(){
         Registro_Producto fragment = Registro_Producto.newInstance("","");
@@ -126,5 +119,30 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    ////////MÉTODOS NECESARIOS PARA INFLAR LA VISTA CON UN MENU//////
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate activity menu items.
+        getMenuInflater().inflate(R.menu.logout, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.itemSalir:
+                Intent intent = new Intent(MainActivity.this, ActivityLogin.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                //Toast.makeText(this,"hola "+item.getTitle(),Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
