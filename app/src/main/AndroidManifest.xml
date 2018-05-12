@@ -26,7 +26,8 @@
         <activity android:name=".activities.CrearVentaActivity" />
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

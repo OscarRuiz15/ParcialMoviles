@@ -99,11 +99,11 @@ public class VerVentas extends Fragment {
                 String componente= ventasList.getAdapter().getItem(position).toString();
                 //Toast.makeText(getApplication(),"Hola: "+componente+" "+position, Toast.LENGTH_SHORT).show();
 
-                String nombreCliente=ventas.get(position).getCliente().getNombre()+" "+ventas.get(position).getCliente().getApellido();
-                Producto pro=ventas.get(position).getProducto();
-                String productos=""+pro.getItem();
+                    String nombreCliente=ventas.get(position).getCliente().getNombre()+" "+ventas.get(position).getCliente().getApellido();
+                    Producto pro=ventas.get(position).getProducto();
+                    String productos=""+pro.getItem();
+                    Toast.makeText(getContext(),"Producto adquirido: "+productos+"\nCantidad: "+ventas.get(position).getCantidad(), Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(getContext(),""+nombreCliente+"\n"+productos, Toast.LENGTH_SHORT).show();
                 /*DetallesVenta fragment = DetallesVenta.newInstance(ventas);
                 android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.frameVentas,fragment);
