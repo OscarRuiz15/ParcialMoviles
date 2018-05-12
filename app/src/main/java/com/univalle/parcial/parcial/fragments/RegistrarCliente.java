@@ -8,74 +8,52 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.univalle.parcial.parcial.R;
-import com.univalle.parcial.parcial.conexion.ClienteBD;
-import com.univalle.parcial.parcial.conexion.ProductoBD;
 import com.univalle.parcial.parcial.modelo.Cliente;
-import com.univalle.parcial.parcial.modelo.Producto;
-import com.univalle.parcial.parcial.modelo.ValidarCampos;
-import com.univalle.parcial.parcial.modelo.Venta;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.univalle.parcial.parcial.conexion.ClienteBD;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Registro_Producto.OnFragmentInteractionListener} interface
+ * {@link RegistrarCliente.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Registro_Producto#newInstance} factory method to
+ * Use the {@link RegistrarCliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Registro_Producto extends Fragment {
+public class RegistrarCliente extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private EditText txtProducto;
-    private EditText txtPrecio;
-    private String producto;
-    private String valor;
+    private EditText txtid,txtnombre, txtemail, txtapellido;
     private Button btnlimpiar, btnregistrar;
+    private Spinner spinner;
+    private static Cliente usuario;
+
 
     private OnFragmentInteractionListener mListener;
 
-    public Registro_Producto() {
-        // Required empty public constructor
+
+    public RegistrarCliente() {
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Producto.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static Registro_Producto newInstance(String param1, String param2) {
-        Registro_Producto fragment = new Registro_Producto();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -85,70 +63,60 @@ public class Registro_Producto extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_registrar_cliente, container, false);
+
+        txtnombre = (EditText) v.findViewById(R.id.tfNombre);
+        txtid=(EditText) v.findViewById(R.id.txtidcliente);
+        txtapellido = (EditText) v.findViewById(R.id.tfApellido);
+        txtemail = (EditText) v.findViewById(R.id.tfEmail);
+        /*spinner = (Spinner) v.findViewById(R.id.spinner); */
+        btnlimpiar = (Button) v.findViewById(R.id.btnlimpiar);
+        btnregistrar = (Button) v.findViewById(R.id.btnregistrar);
+
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_registro__producto, container, false);
-
-        txtProducto = v.findViewById(R.id.tfProducto);
-        txtPrecio = v.findViewById(R.id.tfValorProducto);
-
-        btnlimpiar = (Button) v.findViewById(R.id.btnLimpiar);
-        btnregistrar = (Button) v.findViewById(R.id.btnAgregar);
-
         btnlimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txtProducto.setText("");
-                txtPrecio.setText("");
-
+                txtid.setText("");
+                txtnombre.setText("");
+                txtapellido.setText("");
+                txtemail.setText("");
             }
         });
 
         btnregistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String producto = txtProducto.getText().toString().trim();
-                String valor = txtPrecio.getText().toString().trim();
-                ValidarCampos val = new ValidarCampos();
-                if (producto.equals("") || valor.equals("")){
+                int id=Integer.parseInt(txtid.getText().toString().trim());
+                String nombre = txtnombre.getText().toString().trim();
+                String apellido = txtapellido.getText().toString().trim();
+                String email = txtemail.getText().toString().trim();
+
+
+                if (nombre.equals("") || email.equals("") || apellido.equals("")) {
                     String message = "Hay campos vacios";
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setMessage(message);
                     alertDialog.show();
-                }
-                else if(!(val.Texto(producto) || !(val.Numero(valor)))) {
-                    String mensa="";
-                    if (!(val.Texto(producto))) {
-                        mensa=" El producto es incorrecto";
-                    }
-                    if (!(val.Numero(valor))) {
-                        mensa=" El valor es incorrecto";
-                    }
-                    String message = mensa;
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage(message);
-                    alertDialog.show();
-                }
-                else{
-                    Producto p=new Producto(0,producto,Integer.parseInt(valor));
-
-                    ProductoBD pbd = new ProductoBD(getContext(), "Parcial",null,1);
-
-                    boolean query = pbd.insertarProducto(p);
+                } else {
+                    Cliente u = new Cliente(id, nombre, apellido, email);
+                    ClienteBD cbd = new ClienteBD(v.getContext(), "Parcial", null, 1);
+                    boolean query = cbd.insertarCliente(u);
                     if (query) {
                         String message = "Registro con exito";
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setMessage(message);
                         alertDialog.show();
-                        txtProducto.setText("");
-                        txtPrecio.setText("");
 
+                        txtid.setText("");
+                        txtnombre.setText("");
+                        txtapellido.setText("");
+                        txtemail.setText("");
                     }
-
                 }
 
             }
         });
-
         return v;
     }
 
@@ -157,6 +125,21 @@ public class Registro_Producto extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public static RegistrarCliente newInstance(Bundle arguments) {
+
+        Bundle args = new Bundle();
+
+        int id=arguments.getInt("id");
+        String nombre=arguments.getString("nombre");
+        String apellido=arguments.getString("apellido");
+        String email=arguments.getString("email");
+        usuario=new Cliente(id,nombre,apellido,email);
+
+        RegistrarCliente fragment = new RegistrarCliente();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -191,4 +174,12 @@ public class Registro_Producto extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    public static RegistrarCliente newInstance() {
+
+        Bundle args = new Bundle();
+
+        RegistrarCliente fragment = new RegistrarCliente();
+        fragment.setArguments(args);
+        return fragment;
+    }
 }

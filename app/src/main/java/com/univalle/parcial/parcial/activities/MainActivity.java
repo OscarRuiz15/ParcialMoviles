@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ConexionBD;
 import com.univalle.parcial.parcial.fragments.ConsultarVentasCliente;
+import com.univalle.parcial.parcial.fragments.RegistrarCliente;
 import com.univalle.parcial.parcial.fragments.RegistrarVentaFragment;
 import com.univalle.parcial.parcial.fragments.Registro_Producto;
 import com.univalle.parcial.parcial.fragments.VerVentas;
@@ -21,7 +22,7 @@ import com.univalle.parcial.parcial.modelo.Cliente;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ConsultarVentasCliente.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener,RegistrarVentaFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ConsultarVentasCliente.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener,RegistrarVentaFragment.OnFragmentInteractionListener,RegistrarCliente.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
     Cliente cliente;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
                     registrarProducto();
                     return true;
                 case R.id.navigation_home:
-                    //crearFragmentConsultarCliente();
+                    crearRegistroCliente();
                     return true;
 
                 case R.id.navigation_dashboard:
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
         /*if (tipo == 0) {
             crearFragmentRegistrar();
         }*/
-
+        crearRegistroCliente();
         setContentView(R.layout.activity_main);
 
 
@@ -97,6 +98,13 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
          ft.commit();
      }
  */
+    public void crearRegistroCliente(){
+        RegistrarCliente fragment = RegistrarCliente.newInstance();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment,fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
     public void crearFragmentConsultarCliente() {
         ConsultarVentasCliente fragment = ConsultarVentasCliente.newInstance();
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -112,8 +120,10 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
         System.out.println(getIntent().getExtras().getIntegerArrayList("ids").get(0));
         bundle.putIntegerArrayList("cantidades",getIntent().getIntegerArrayListExtra("cantidades"));
         bundle.putStringArrayList("nombres",getIntent().getStringArrayListExtra("nombres"));
+        if (getIntent().getIntegerArrayListExtra("nombres")!=null)
+            System.out.println(getIntent().getExtras().getIntegerArrayList("nombres").get(0));
         bundle.putIntegerArrayList("precio",getIntent().getIntegerArrayListExtra("precio"));
-        RegistrarVentaFragment fragment = RegistrarVentaFragment.newInstance(null);
+        RegistrarVentaFragment fragment = RegistrarVentaFragment.newInstance(bundle);
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment,fragment);
         ft.addToBackStack(null);

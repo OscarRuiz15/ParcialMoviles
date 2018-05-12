@@ -149,7 +149,7 @@ public class RegistrarVentaFragment extends Fragment {
                     VentaBD vbd=new VentaBD(getContext(),"Parcial",null,1);
                     String campos[]=botones[i].getText().toString().trim().split("\t");
                     Producto p=productoBD.consultarId(Integer.parseInt(campos[0]));
-                    Venta v=new Venta(0,cliente,p,new Date().toString(),Integer.parseInt(campos[2]),Integer.parseInt(campos[3]));
+                    Venta v=new Venta(0,cliente,p,new Date().toString(),Integer.parseInt(campos[2]),Integer.parseInt(campos[3].substring(1)));
                     vbd.insertarVenta(v);
 
                 }

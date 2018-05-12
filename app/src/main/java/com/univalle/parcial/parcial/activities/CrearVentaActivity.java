@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ProductoBD;
@@ -50,11 +51,11 @@ public class CrearVentaActivity extends AppCompatActivity {
 
         txtentrega=(EditText) findViewById(R.id.txtdateentrega);
         txtcantidad=(EditText) findViewById(R.id.txtcantidadvente);
-        ProductoBD pbd = new ProductoBD(this, "parcial", null, 1);
+        ProductoBD pbd = new ProductoBD(this, "Parcial", null, 1);
         List<Producto> productos = pbd.consultarProductos();
 
         String lista[] = new String[productos.size()];
-        System.out.println(lista.length);
+
         for (int i = 0; i < lista.length; i++) {
             lista[i] = productos.get(i).getItem();
 
@@ -94,7 +95,12 @@ public class CrearVentaActivity extends AppCompatActivity {
 
 
         String nombre=producto.getItem();
-        int cantidad=Integer.parseInt(txtcantidad.getText().toString().trim());
+        int cantidad;
+        if (spinner.getSelectedItemPosition() == 1) {
+            cantidad = Integer.parseInt(txtentrega.getText().toString().trim());
+        }else{
+            cantidad = Integer.parseInt(txtcantidad.getText().toString().trim());
+        }
         int preciop=cantidad*producto.getPrecio();
         ids.add(id);
         nombres.add(nombre);
