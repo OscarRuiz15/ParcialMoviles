@@ -33,17 +33,26 @@ public class CrearVentaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_venta);
+        if (getIntent().getExtras()!=null) {
+            ids = getIntent().getExtras().getIntegerArrayList("ids");
+            nombres = getIntent().getExtras().getStringArrayList("nombres");
+            cantidades = getIntent().getExtras().getIntegerArrayList("cantidades");
+            precio = getIntent().getExtras().getIntegerArrayList("precio");
+        }
 
+    else{
+        ids=new ArrayList<>();
+        nombres=new ArrayList<>();
+        cantidades=new ArrayList<>();
+        precio=new ArrayList<>();
+    }
         spinner = (Spinner) findViewById(R.id.spinneropcion);
 
         txtentrega=(EditText) findViewById(R.id.txtdateentrega);
         txtcantidad=(EditText) findViewById(R.id.txtcantidadvente);
         ProductoBD pbd = new ProductoBD(this, "parcial", null, 1);
-        List<Producto> productos = new ArrayList<>();/*pbd.consultarProductos();*/
-        Producto p = new Producto(1, "Minutos", 300);
-        productos.add(p);
-        p = new Producto(2, "modem", 1500);
-        productos.add(p);
+        List<Producto> productos = pbd.consultarProductos();
+
         String lista[] = new String[productos.size()];
         System.out.println(lista.length);
         for (int i = 0; i < lista.length; i++) {
@@ -99,6 +108,7 @@ public class CrearVentaActivity extends AppCompatActivity {
         bundle.putIntegerArrayList("cantidades",cantidades);
         bundle.putStringArrayList("nombres",nombres);
         bundle.putIntegerArrayList("precio",precio);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

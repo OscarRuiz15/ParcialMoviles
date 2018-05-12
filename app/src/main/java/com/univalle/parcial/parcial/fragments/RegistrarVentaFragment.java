@@ -50,10 +50,10 @@ public class RegistrarVentaFragment extends Fragment {
     private Button btncrear;
     private Button btnanadir;
     private Button botones[]=new Button[30];
-    private ArrayList<Integer>ids;
-    private ArrayList<String>nombres;
-    private ArrayList<Integer>cantidades;
-    private ArrayList<Integer>precio;
+    private static ArrayList<Integer>ids;
+    private static ArrayList<String>nombres;
+    private static ArrayList<Integer>cantidades;
+    private static ArrayList<Integer>precio;
     private AutoCompleteTextView txtid;
     private static List<Venta> ventas = new ArrayList<>();
 
@@ -118,7 +118,7 @@ public class RegistrarVentaFragment extends Fragment {
 
         //Creamos los botones en bucle
 
-        if (!ids.isEmpty()) {
+        if (ids!=null) {
 
 
             for (int i = 0; i < ids.size(); i++) {
@@ -220,7 +220,7 @@ public class RegistrarVentaFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public RegistrarVentaFragment newInstance(Bundle arguments) {
+    public static RegistrarVentaFragment newInstance(Bundle arguments) {
 
         RegistrarVentaFragment fragment = new RegistrarVentaFragment();
         if (arguments!=null) {

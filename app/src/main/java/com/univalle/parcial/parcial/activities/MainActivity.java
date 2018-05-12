@@ -14,17 +14,21 @@ import android.widget.TextView;
 import com.univalle.parcial.parcial.R;
 import com.univalle.parcial.parcial.conexion.ConexionBD;
 import com.univalle.parcial.parcial.fragments.ConsultarVentasCliente;
+import com.univalle.parcial.parcial.fragments.RegistrarVentaFragment;
 import com.univalle.parcial.parcial.fragments.Registro_Producto;
 import com.univalle.parcial.parcial.fragments.VerVentas;
 import com.univalle.parcial.parcial.modelo.Cliente;
 
-public class MainActivity extends AppCompatActivity implements ConsultarVentasCliente.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements ConsultarVentasCliente.OnFragmentInteractionListener,Registro_Producto.OnFragmentInteractionListener,VerVentas.OnFragmentInteractionListener,RegistrarVentaFragment.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
     Cliente cliente;
     ConexionBD conexion;
     SQLiteDatabase db;
     ConsultarVentasCliente consultventcliente;
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -45,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
                 case R.id.navigation_home:
                     //crearFragmentConsultarCliente();
                     return true;
+
+                case R.id.navigation_dashboard:
+                    crearFragmentRegistrarVenta();
+                    return true;
+
             }
             return false;
         }
@@ -68,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
 
         setContentView(R.layout.activity_main);
 
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -88,6 +99,21 @@ public class MainActivity extends AppCompatActivity implements ConsultarVentasCl
  */
     public void crearFragmentConsultarCliente() {
         ConsultarVentasCliente fragment = ConsultarVentasCliente.newInstance();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment,fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+    public void crearFragmentRegistrarVenta() {
+
+        Bundle bundle=new Bundle();
+        bundle.putIntegerArrayList("ids",getIntent().getIntegerArrayListExtra("ids"));
+        if (getIntent().getIntegerArrayListExtra("ids")!=null)
+        System.out.println(getIntent().getExtras().getIntegerArrayList("ids").get(0));
+        bundle.putIntegerArrayList("cantidades",getIntent().getIntegerArrayListExtra("cantidades"));
+        bundle.putStringArrayList("nombres",getIntent().getStringArrayListExtra("nombres"));
+        bundle.putIntegerArrayList("precio",getIntent().getIntegerArrayListExtra("precio"));
+        RegistrarVentaFragment fragment = RegistrarVentaFragment.newInstance(null);
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment,fragment);
         ft.addToBackStack(null);
